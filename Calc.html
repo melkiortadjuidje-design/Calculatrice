@@ -1,3 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculatrice</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #1a1a2e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .calculatrice {
+      background-color: #16213e;
+      border-radius: 24px;
+      padding: 24px;
+      width: 300px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      border: 1px solid #0f3460;
+    }
+
+    .ecran {
+      background-color: #0f3460;
+      border-radius: 14px;
+      padding: 20px 18px 12px;
+      margin-bottom: 20px;
+      text-align: right;
+      min-height: 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .ecran .operation {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: #a8b2d8;
+      min-height: 18px;
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ecran .resultat {
+      font-family: 'DM Mono', monospace;
+      font-size: 36px;
+      font-weight: 500;
+      color: #e0e0ff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .grille {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      padding: 18px 0;
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.1s;
+    }
+
+    button:active {
+      transform: scale(0.94);
+      opacity: 0.85;
+    }
+
+    .btn-chiffre    { background-color: #1a2a5e; color: #e0e0ff; }
+    .btn-operateur  { background-color: #0f3460; color: #7eb8f7; }
+    .btn-egal       { background-color: #e94560; color: #ffffff; }
+    .btn-effacer    { background-color: #533483; color: #ffffff; grid-column: span 2; }
+    .btn-zero       { grid-column: span 2; }
+
+    button:hover { filter: brightness(1.15); }
+  </style>
+</head>
+<body>
+
+  <div class="calculatrice">
+    <div class="ecran">
+      <div class="operation" id="operation"></div>
+      <div class="resultat" id="resultat">0</div>
+    </div>
+
+    <div class="grille">
+      <button class="btn-effacer" onclick="effacer()">C</button>
+      <button class="btn-operateur" onclick="ajouterOperateur('%')">%</button>
+      <button class="btn-operateur" onclick="ajouterOperateur('÷')">÷</button>
+
+      <button class="btn-chiffre" onclick="ajouterChiffre('7')">7</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('8')">8</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('9')">9</button>
+      <button class="btn-operateur" onclick="ajouterOperateur('×')">×</button>
+
+      <button class="btn-chiffre" onclick="ajouterChiffre('4')">4</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('5')">5</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('6')">6</button>
+      <button class="btn-operateur" onclick="ajouterOperateur('−')">−</button>
+
+      <button class="btn-chiffre" onclick="ajouterChiffre('1')">1</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('2')">2</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('3')">3</button>
+      <button class="btn-operateur" onclick="ajouterOperateur('+')">+</button>
+
+      <button class="btn-chiffre btn-zero" onclick="ajouterChiffre('0')">0</button>
+      <button class="btn-chiffre" onclick="ajouterChiffre('.')">.</button>
+      <button class="btn-egal" onclick="calculer()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let nombreActuel    = '';
+    let nombrePrecedent = '';
+    let operateur       = '';
 const affichageResultat  = document.getElementById('resultat');
     const affichageOperation = document.getElementById('operation');
 
