@@ -86,7 +86,6 @@
       transform: scale(0.94);
       opacity: 0.85;
     }
-
     .btn-chiffre    { background-color: #1a2a5e; color: #e0e0ff; }
     .btn-operateur  { background-color: #0f3460; color: #7eb8f7; }
     .btn-egal       { background-color: #e94560; color: #ffffff; }
@@ -134,7 +133,8 @@
     let nombreActuel    = '';
     let nombrePrecedent = '';
     let operateur       = '';
-const affichageResultat  = document.getElementById('resultat');
+    
+    const affichageResultat  = document.getElementById('resultat');
     const affichageOperation = document.getElementById('operation');
 
     function ajouterChiffre(valeur) {
