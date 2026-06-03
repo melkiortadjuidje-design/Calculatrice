@@ -1,0 +1,67 @@
+const affichageResultat  = document.getElementById('resultat');
+    const affichageOperation = document.getElementById('operation');
+
+    function ajouterChiffre(valeur) {
+      if (valeur === '.' && nombreActuel.includes('.')) return;
+      nombreActuel += valeur;
+      affichageResultat.textContent = nombreActuel;
+    }
+
+    function ajouterOperateur(op) {
+      if (nombreActuel === '') return;
+      if (nombrePrecedent !== '' && operateur !== '') calculer();
+      nombrePrecedent = nombreActuel;
+      operateur = op;
+      nombreActuel = '';
+      affichageOperation.textContent = nombrePrecedent + ' ' + operateur;
+      affichageResultat.textContent  = '0';
+    }
+
+    function calculer() {
+      if (nombrePrecedent === ''  nombreActuel === ''  operateur === '') return;
+      const a = parseFloat(nombrePrecedent);
+      const b = parseFloat(nombreActuel);
+      let resultat;
+
+      if (operateur === '+') resultat = a + b;
+      if (operateur === '−') resultat = a - b;
+      if (operateur === '×') resultat = a * b;
+      if (operateur === '%') resultat = a % b;
+      if (operateur === '÷') {
+        if (b === 0) {
+          affichageResultat.textContent  = 'Erreur';
+          affichageOperation.textContent = '';
+          nombreActuel = ''; nombrePrecedent = ''; operateur = '';
+          return;
+        }
+        resultat = a / b;
+      }
+
+      affichageOperation.textContent = a + ' ' + operateur + ' ' + b + ' =';
+      affichageResultat.textContent  = parseFloat(resultat.toFixed(10));
+      nombreActuel    = String(resultat);
+      nombrePrecedent = '';
+      operateur       = '';
+    }
+
+    function effacer() {
+      nombreActuel = ''; nombrePrecedent = ''; operateur = '';
+      affichageResultat.textContent  = '0';
+      affichageOperation.textContent = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key >= '0' && e.key <= '9') ajouterChiffre(e.key);
+      if (e.key === '.')    ajouterChiffre('.');
+      if (e.key === '+')    ajouterOperateur('+');
+      if (e.key === '-')    ajouterOperateur('−');
+      if (e.key === '*')    ajouterOperateur('×');
+      if (e.key === '/')    { e.preventDefault(); ajouterOperateur('÷'); }
+      if (e.key === 'Enter' || e.key === '=') calculer();
+      if (e.key === 'Escape' || e.key === 'c') effacer();
+    });
+  </script>
+  
+
+</body>
+</html>
